@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS segments (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    UNIQUE (name)
+);
