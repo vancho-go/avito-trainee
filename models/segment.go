@@ -6,13 +6,16 @@ import (
 )
 
 type Segment struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	Name    string `json:"name"`
+	Percent int    `json:"percent,omitempty"`
 }
 
 func (s *Segment) Bind(r *http.Request) error {
 	if s.Name == "" {
 		return fmt.Errorf("name is a required field")
+	}
+	if s.Percent < 0 || s.Percent > 100 {
+		return fmt.Errorf("percent is out of range [1;100]")
 	}
 	return nil
 }
