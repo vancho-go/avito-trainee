@@ -18,12 +18,8 @@ import (
 
 const (
 	HOST = "database"
-	//HOST = "localhost"
 	PORT = 5432
 )
-
-// ErrNoMatch возвращается, если мы запрашиваем строку, которой несуществует
-var ErrNoMatch = fmt.Errorf("no matching record")
 
 type Database struct {
 	Conn *sql.DB
@@ -49,12 +45,12 @@ func NewNullTimeStamp(s string) sql.NullTime {
 	if len(s) == 0 {
 		return sql.NullTime{}
 	}
-	time, err := time.Parse("2006-01-02 15:04:05", s)
+	timee, err := time.Parse("2006-01-02 15:04:05", s)
 	if err != nil {
 		return sql.NullTime{}
 	}
 	return sql.NullTime{
-		Time:  time,
+		Time:  timee,
 		Valid: true,
 	}
 }
@@ -62,10 +58,7 @@ func NewNullTimeStamp(s string) sql.NullTime {
 func (db Database) AddUser(user *models.User) error {
 	query := `INSERT INTO users (user_id) VALUES ($1);`
 	_, err := db.Conn.Exec(query, user.User_id)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func (db Database) AddSegment(segment *models.Segment) error {
@@ -143,10 +136,7 @@ func (db Database) AddSegment(segment *models.Segment) error {
 func (db Database) DeleteSegment(segment *models.Segment) error {
 	query := `DELETE FROM segments WHERE name = $1;`
 	_, err := db.Conn.Exec(query, segment.Name)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func (db Database) UpdateUserSegments(userSegments *models.UserSegmentsUpdate) error {
